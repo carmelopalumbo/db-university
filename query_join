@@ -1,0 +1,76 @@
+------------QUERY JOIN------------
+
+
+-----QUERY(1)-----
+
+SELECT `students`.`name`, `students`.`surname`, `students`.`registration_number` AS `matricola`, `degrees`.`name` AS `corso_di_laurea`
+FROM `students`
+JOIN `degrees` ON `degrees`.`id` = `students`.`degree_id`
+WHERE `degrees`.`name` = 'Corso di Laurea in Economia'
+ORDER BY `students`.`surname`;
+
+
+-----QUERY(2)-----
+
+SELECT `courses`.`name` AS `nome_corso`, `degrees`.`level` AS `livello_laurea`, `departments`.`name` AS `dipartimento`
+FROM `degrees`
+JOIN `courses` ON `degrees`.`id` = `courses`.`degree_id`
+JOIN `departments`ON `departments`.`id` = `degrees`.`department_id`
+WHERE `degrees`.`level` = 'magistrale'
+AND `departments`.`name` = 'Dipartimento di Neuroscienze'
+ORDER BY `courses`.`name`;
+
+
+-----QUERY(3)-----
+
+SELECT `teachers`.`name`, `teachers`.`surname`, `courses`.`name` AS `nome_corso`, `courses`.`period`
+FROM `courses`
+JOIN `course_teacher` ON `course_teacher`.`course_id` = `courses`.`id`
+JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
+WHERE `teachers`.`id` = 44
+ORDER BY `courses`.`period`;
+
+
+-----QUERY(4)-----
+
+SELECT `students`.`name` AS `nome`, `students`.`surname` AS `congome`, `students`.`registration_number` AS `matricola`, `degrees`.`name` AS `corso_di_laurea`, `departments`.`name` AS `dipartimento`
+FROM `students`
+JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id`
+JOIN `departments`ON `degrees`.`department_id`= `departments`.`id`
+ORDER BY `students`.`surname`, `students`.`name`;
+
+
+-----QUERY(5)-----
+
+SELECT `degrees`.`name` AS `corso_di_laurea`, `courses`.`name` AS `corso`, `teachers`.`surname` AS `docente`
+FROM `degrees`
+JOIN `courses` ON `courses`.`degree_id` = `degrees`.`id`
+JOIN `course_teacher`ON `course_teacher`.`course_id`= `courses`.`id`
+JOIN `teachers`ON `course_teacher`.`teacher_id`= `teachers`.`id`
+ORDER BY `degrees`.`name`,`teachers`.`surname`;
+
+
+-----QUERY(6)-----
+
+SELECT DISTINCT `teachers`.`name`, `teachers`.`surname`, `departments`.`name` AS `dipartimento`
+FROM `teachers`
+JOIN `course_teacher` ON `course_teacher`.`teacher_id` = `teachers`.`id`
+JOIN `courses` ON `course_teacher`.`course_id` = `courses`.`id`
+JOIN `degrees`ON `courses`.`degree_id`= `degrees`.`id`
+JOIN `departments`ON `degrees`.`department_id` = `departments`.`id`
+WHERE `departments`.`name` = 'Dipartimento di Matematica'
+ORDER BY `teachers`.`surname`, `teachers`.`name`;
+
+
+-----QUERY(7)-----
+
+SELECT `students`.`name`, `students`.`surname`, `courses`.`name`, COUNT(`exams`.`id`) AS `tentativi_esame`
+FROM `students` 
+JOIN `exam_student` ON `students`.`id` = `exam_student`.`student_id`
+JOIN `exams` ON `exam_student`.`exam_id` = `exams`.`id`
+JOIN `courses` ON `exams`.`course_id` = `courses`.`id`
+GROUP BY `students`.`name`, `students`.`surname`, `courses`.`name`;
+
+
+
+-------------------------CARMELO PALUMBO-------------------------
